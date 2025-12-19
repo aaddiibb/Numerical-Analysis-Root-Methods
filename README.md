@@ -85,11 +85,16 @@
     - [Code](#runge-kutta-code)
     - [Input](#runge-kutta-input)
     - [Output](#runge-kutta-output)
-  - [Numerical Differentiation Method](#numerical-differentiation-method)
-    - [Theory](#numerical-differentiation-theory)
-    - [Code](#numerical-differentiation-code)
-    - [Input](#numerical-differentiation-input)
-    - [Output](#numerical-differentiation-output)
+  - [Numerical Differentiation by Forward Interpolation Method](#numerical-differentiation-by-forward-interpolation-method)
+    - [Theory](#numerical-differentiation-by-forward-interpolation-theory)
+    - [Code](#numerical-differentiation-by-forward-interpolation-code)
+    - [Input](#numerical-differentiation-by-forward-interpolation-input)
+    - [Output](#numerical-differentiation-by-forward-interpolation-output)
+  - [Numerical Differentiation by Backward Interpolation Method](#numerical-differentiation-by-backward-interpolation-method)
+    - [Theory](#numerical-differentiation-by-backward-interpolation-theory)
+    - [Code](#numerical-differentiation-by-backward-interpolation-code)
+    - [Input](#numerical-differentiation-by-backward-interpolation-input)
+    - [Output](#numerical-differentiation-by-backward-interpolation-output)
 
 - [Solution of Numerical Integrations](#solution-of-numerical-integrations)
   - [Simpson's One-Third Rule](#simpsons-one-third-rule)
@@ -2241,7 +2246,7 @@ Computed solution: y(1) = 3.43656
 
 ---
 
-### Numerical Differentiation Method
+### Numerical Differentiation By Forward Interpolation Method
 
 ### Numerical Differentiation Theory
 #### Method used
@@ -2296,17 +2301,39 @@ where u = (x - xₙ)/h
 - Accuracy depends on step size h and function smoothness
 - Higher-order formulas available for greater accuracy
 
-### Numerical Differentiation Code
+### Numerical Differentiation By Forward Interpolation Code
 ```cpp
 # Add your code here
 ```
 
-### Numerical Differentiation Input
+### Numerical Differentiation By Forward Interpolation Input
 ```
 [Add your input format here]
 ```
 
-### Numerical Differentiation Output
+### Numerical Differentiation By Forward Interpolation Output
+```
+[Add your output format here]
+```
+
+---
+
+### Numerical Differentiation By Backward Interpolation Method
+
+### Numerical Differentiation By Backward Interpolation Theory
+[Add your theory content here]
+
+### Numerical Differentiation By Backward Interpolation Code
+```cpp
+# Add your code here
+```
+
+### Numerical Differentiation By Backward Interpolation Input
+```
+[Add your input format here]
+```
+
+### Numerical Differentiation By Backward Interpolation Output
 ```
 [Add your output format here]
 ```
