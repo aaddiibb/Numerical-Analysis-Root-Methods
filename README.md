@@ -80,16 +80,6 @@
     - [Output](#least-square-regression-method-for-polynomial-equations-output)
 
 - [Solution of Differential Equations](#solution-of-differential-equations)
-  - [Equal Interval Interpolation Method](#equal-interval-interpolation-method)
-    - [Theory](#equal-interval-interpolation-theory)
-    - [Code](#equal-interval-interpolation-code)
-    - [Input](#equal-interval-interpolation-input)
-    - [Output](#equal-interval-interpolation-output)
-  - [Second Order Derivative Method](#second-order-derivative-method)
-    - [Theory](#second-order-derivative-theory)
-    - [Code](#second-order-derivative-code)
-    - [Input](#second-order-derivative-input)
-    - [Output](#second-order-derivative-output)
   - [Runge Kutta Method](#runge-kutta-method)
     - [Theory](#runge-kutta-theory)
     - [Code](#runge-kutta-code)
@@ -1125,48 +1115,33 @@ x5 = 1.18462
 **Newton's Forward Difference Interpolation**
 
 #### Objective
-To approximate the value of a function
-$$ f(x) $$
-at a point 
-$$ x $$
-near the *beginning* of a table of equally spaced data points using forward differences.
+To approximate function values at intermediate points using forward differences.
+Supports multiple data points with automatic polynomial order detection.
+
+#### NEWTON FORWARD INTERPOLATION FORMULA:
+
+	f(x) = f(x₀) + uΔf(x₀) + [u(u-1)/2!]Δ²f(x₀) + [u(u-1)(u-2)/3!]Δ³f(x₀) + ...
+
+where:
+
+	u = (x - x₀) / h
+	h = step size (x₁ - x₀)
+	Δⁿf(x₀) = nth forward difference at x₀
+
+#### FORWARD DIFFERENCE TABLE:
+
+	Δf(xᵢ) = f(xᵢ₊₁) - f(xᵢ)
+	Δ²f(xᵢ) = Δf(xᵢ₊₁) - Δf(xᵢ)
+	Δⁿf(xᵢ) = Δⁿ⁻¹f(xᵢ₊₁) - Δⁿ⁻¹f(xᵢ)
 
 #### Data Requirement
- - Tabulated values 
- $$
- (x_i, y_i), i = 0,1,...,n
- $$
- - Equal spacing
-     $$
-     h = x_{i+1} - x_i
-     $$
-
-#### Notation
--  x_0: first tabulated point
-- h: step size
-- u: parameter defined by
-    $$
-    u = \frac{x - x_0}{h}
-    $$
-- Δy_i: forward differences defined by
-    $$
-    \Delta y_i = y_{i+1} - y_i, \quad \Delta^2 y_i = \Delta(\Delta y_i), \text{ etc.}
-    $$
-
-#### Interpolating Polynomial
-The Newton forward interpolating polynomial of degree \(n\) is
-$$
-f(x) \approx y_0 + u\,\Delta y_0 + \frac{u(u-1)}{2!}\,\Delta^2 y_0
-                    + \frac{u(u-1)(u-2)}{3!}\,\Delta^3 y_0 + \cdots
-$$
+- Tabulated values (x₀, y₀), (x₁, y₁), ..., (xₙ, yₙ)
+- Equal spacing between x values
 
 #### Features
-- Best suited when
-    $$
-    x \text{ lies near } x_0
-    $$
-- Uses entries from the top of the forward difference table.
-- Accuracy improves as more terms (and smoother functions) are used.
+- Best suited for interpolation near the beginning of the data table.
+- Requires equally spaced x values.
+- Accuracy improves with more data points and smoother functions.
 
 ### Newton's Forward Interpolation Code
 ```cpp
@@ -1370,51 +1345,32 @@ Estimated Forward Interpolation Error = 0.00
 **Newton's Backward Difference Interpolation**
 
 #### Objective
-To approximate
-$$
-f(x)
-$$
-at a point
-$$
-x
-$$
-near the *end* of a table of equally spaced data points using backward differences.
+To approximate function values at intermediate points using backward differences.
+Ideal when interpolating near the end of the data table.
+
+#### NEWTON BACKWARD INTERPOLATION FORMULA:
+
+	f(x) = f(xₙ) + u∇f(xₙ) + [u(u+1)/2!]∇²f(xₙ) + [u(u+1)(u+2)/3!]∇³f(xₙ) + ...
+
+where:
+
+	u = (x - xₙ) / h
+	h = step size (x₁ - x₀)
+	∇ⁿf(xₙ) = nth backward difference at xₙ
+
+#### BACKWARD DIFFERENCE TABLE:
+
+	∇f(xᵢ) = f(xᵢ) - f(xᵢ₋₁)
+	∇²f(xᵢ) = ∇f(xᵢ) - ∇f(xᵢ₋₁)
+	∇ⁿf(xᵢ) = ∇ⁿ⁻¹f(xᵢ) - ∇ⁿ⁻¹f(xᵢ₋₁)
 
 #### Data Requirement
-- Tabulated values:
-    $$
-    (x_i, y_i), \quad i = 0,1,\ldots,n
-    $$
-- Equal spacing
-    $$
-    h = x_{i+1} - x_i
-    $$
-
-#### Notation
-- x_n: last tabulated point
-- h: step size
-- u: parameter defined by
-    $$
-    u = \frac{x - x_n}{h}
-    $$
-- ∇y_i: backward differences defined by
-    $$
-    \nabla y_i = y_i - y_{i-1}, \quad \nabla^2 y_i = \nabla(\nabla y_i), \text{ etc.}
-    $$
-
-#### Interpolating Polynomial
-The Newton backward interpolating polynomial of degree \(n\) is
-$$
-f(x) \approx y_n + u\,\nabla y_n + \frac{u(u+1)}{2!}\,\nabla^2 y_n
-                    + \frac{u(u+1)(u+2)}{3!}\,\nabla^3 y_n + \cdots
-$$
+- Tabulated values (x₀, y₀), (x₁, y₁), ..., (xₙ, yₙ)
+- Equal spacing between x values
 
 #### Features
-- Best suited when
-    $$
-    x \text{ lies near } x_n
-    $$
-- Uses entries from the bottom of the backward difference table.
+- Best suited for interpolation near the end of the data table.
+- Requires equally spaced x values.
 - Particularly useful when new data points are appended at the end.
 
 ### Newton's Backward Interpolation Code
@@ -1585,40 +1541,29 @@ Estimated Backward Interpolation Error = 0.00
 **Newton's Divided Difference Interpolation**
 
 #### Objective
-To construct an interpolating polynomial for data points that may be **unequally spaced** in
-$$
-x
-$$
+To construct interpolating polynomials for unequally spaced data points.
+Works with both equal and unequal spacing.
+
+#### DIVIDED DIFFERENCES FORMULA:
+
+First-order divided difference:
+
+	f[xᵢ, xᵢ₊₁] = [f(xᵢ₊₁) - f(xᵢ)] / (xᵢ₊₁ - xᵢ)
+
+Higher-order divided differences (recursive):
+
+	f[xᵢ, xᵢ₊₁, ..., xᵢ₊ₖ] = [f[xᵢ₊₁, ..., xᵢ₊ₖ] - f[xᵢ, ..., xᵢ₊ₖ₋₁]] / (xᵢ₊ₖ - xᵢ)
+
+#### NEWTON DIVIDED DIFFERENCE POLYNOMIAL:
+
+	Pₙ(x) = f[x₀] + (x - x₀)f[x₀,x₁]
+	        + (x - x₀)(x - x₁)f[x₀,x₁,x₂]
+	        + ...
+	        + (x - x₀)...(x - xₙ₋₁)f[x₀,...,xₙ]
 
 #### Data Requirement
-- Distinct data points:
-    $$
-    (x_0, y_0), (x_1, y_1), \ldots, (x_n, y_n)
-    $$
-- No requirement of equal spacing in
-    $$
-    x_i
-    $$
-
-#### Divided Differences
-The first-order divided difference is
-$$
-f[x_i, x_{i+1}] = \frac{f(x_{i+1}) - f(x_i)}{x_{i+1} - x_i}.
-$$
-Higher-order divided differences are defined recursively as
-$$
-f[x_i, x_{i+1}, \dots, x_{i+k}] =
-\frac{f[x_{i+1}, \dots, x_{i+k}] - f[x_i, \dots, x_{i+k-1}]}{x_{i+k} - x_i}.
-$$
-
-#### Newton Divided Difference Polynomial
-The interpolating polynomial can be written as
-$$
-P_n(x) = f[x_0] + (x - x_0) f[x_0,x_1]
-    + (x - x_0)(x - x_1) f[x_0,x_1,x_2]
-    + \cdots
-    + (x - x_0)\cdots(x - x_{n-1}) f[x_0,\dots,x_n].
-$$
+- Distinct data points (x₀, y₀), (x₁, y₁), ..., (xₙ, yₙ)
+- Works with equal or unequal spacing
 
 #### Features
 - Works for both equally and unequally spaced nodes.
@@ -2165,49 +2110,7 @@ y = 3 + 2x + 1x^2
 
 ### Solution of Differential Equations
 
-### Equal Interval Interpolation Method
 
-### Equal Interval Interpolation Theory
-[Add your theory content here]
-
-### Equal Interval Interpolation Code
-```cpp
-# Add your code here
-```
-
-### Equal Interval Interpolation Input
-```
-[Add your input format here]
-```
-
-### Equal Interval Interpolation Output
-```
-[Add your output format here]
-```
-
----
-
-### Second Order Derivative Method 
-
-### Second Order Derivative Theory
-[Add your theory content here]
-
-### Second Order Derivative Code
-```cpp
-# Add your code here
-```
-
-### Second Order Derivative Input
-```
-[Add your input format here]
-```
-
-### Second Order Derivative Output
-```
-[Add your output format here]
-```
-
----
 
 ### Runge Kutta Method 
 
@@ -2216,43 +2119,36 @@ y = 3 + 2x + 1x^2
 **Runge–Kutta Method (Classical 4th Order RK)**
 
 #### Objective
-To obtain a numerical solution of an initial value problem
-$$
-\frac{dy}{dx} = f(x, y), \quad y(x_0) = y_0
-$$
-by advancing the solution from x_n to x_{n+1} = x_n + h with high accuracy.
+To solve initial value problems of the form dy/dx = f(x, y) with initial condition y(x₀) = y₀.
 
-#### Notation
+#### INITIAL VALUE PROBLEM:
 
-- `x_n`: current point
-- `y_n`: current value  
-- `h`: step size
-- `k_1, k_2, k_3, k_4`: slope estimates at different points
+	dy/dx = f(x, y),  y(x₀) = y₀
 
-#### Basic Idea
-The 4th order Runge–Kutta method computes a weighted average of slopes:
-$$
-\begin{aligned}
-k_1 &= f(x_n, y_n),\\
-k_2 &= f\Big(x_n + \tfrac{h}{2}, y_n + \tfrac{h}{2} k_1\Big),\\
-k_3 &= f\Big(x_n + \tfrac{h}{2}, y_n + \tfrac{h}{2} k_2\Big),\\
-k_4 &= f(x_n + h, y_n + h k_3).
-\end{aligned}
-$$
-Then the next value is
-$$
-y_{n+1} = y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4).
-$$
+Goal: Advance solution from xₙ to xₙ₊₁ = xₙ + h with high accuracy.
+
+#### RUNGE-KUTTA 4TH ORDER FORMULA:
+
+Compute slope estimates at different points:
+
+	k₁ = f(xₙ, yₙ)
+	k₂ = f(xₙ + h/2, yₙ + h·k₁/2)
+	k₃ = f(xₙ + h/2, yₙ + h·k₂/2)
+	k₄ = f(xₙ + h, yₙ + h·k₃)
+
+Update to next step:
+
+	yₙ₊₁ = yₙ + (h/6)(k₁ + 2k₂ + 2k₃ + k₄)
+
+#### Data Requirement
+- Initial condition: (x₀, y₀)
+- Differential equation: dy/dx = f(x, y)
+- Step size: h
+- Final x value: xₙ
 
 #### Features
-- Local truncation error of order
-    $$
-    O(h^5); \quad \text{global error} \ O(h^4)
-    $$
-- Does not require evaluation of higher derivatives of
-    $$
-    f
-    $$
+- Local truncation error of order O(h⁵); global error O(h⁴)
+- Does not require evaluation of higher derivatives
 - Widely used as a standard one-step method for ODEs.
 
 ### Runge Kutta Code
@@ -2352,97 +2248,53 @@ Computed solution: y(1) = 3.43656
 **Numerical Differentiation using Interpolation (Forward and Backward Differences)**
 
 #### Objective
-To approximate derivatives
-$$
-f'(x), f''(x), \ldots
-$$
-from tabulated values of
-$$
-f(x)
-$$
-when an explicit analytic form is not available.
+To approximate derivatives f'(x), f''(x), etc., from tabulated function values.
+
+#### FIRST DERIVATIVE – FORWARD FORMULA AT x₀:
+
+	f'(x₀) ≈ (1/h)(a₁Δy₀ + a₂Δ²y₀ + a₃Δ³y₀ + ...)
+
+where Δᵏy₀ are forward differences and aₖ are known constants.
+
+#### FIRST DERIVATIVE – BACKWARD FORMULA AT xₙ:
+
+	f'(xₙ) ≈ (1/h)(b₁∇yₙ + b₂∇²yₙ + b₃∇³yₙ + ...)
+
+where ∇ᵏyₙ are backward differences and bₖ are known constants.
+
+#### SECOND DERIVATIVE FORMULAS:
+
+At the beginning (forward):
+
+	f''(x₀) ≈ Δ²y₀/h² = (y₂ - 2y₁ + y₀)/h²
+
+At the end (backward):
+
+	f''(xₙ) ≈ ∇²yₙ/h² = (yₙ - 2yₙ₋₁ + yₙ₋₂)/h²
 
 #### Data Requirement
-- Tabulated values (x_i, y_i) with equal spacing
-    $$
-    h = x_{i+1} - x_i
-    $$
+- Tabulated values (x₀, y₀), (x₁, y₁), ..., (xₙ, yₙ)
+- Equal spacing: h = xᵢ₊₁ - xᵢ
 
-#### Basic Idea
-1. Construct an interpolating polynomial for
-   $$
-   f(x)
-   $$
-   using either:
-   - Newton's forward interpolation (when differentiating near the beginning of the table), or
-   - Newton's backward interpolation (when differentiating near the end of the table).
-2. Differentiate the interpolating polynomial analytically and then evaluate the derivative at the required point.
+#### INTERPOLATION POLYNOMIALS USED:
 
-#### Example: First Derivative – Forward Formula at x_0
-Using the Newton forward polynomial and differentiating, one obtains a formula of the form
-$$
-f'(x_0) \approx \frac{1}{h}\Big(a_1 \Delta y_0 + a_2 \Delta^2 y_0 + a_3 \Delta^3 y_0 + \cdots \Big),
-$$
-where \(\Delta^k y_0\) are forward differences and \(a_k\) are known constants depending on the chosen order of approximation.
+Forward interpolation (around x₀):
 
-#### Example: First Derivative – Backward Formula at x_n
-Similarly, using Newton's backward polynomial,
-$$
-f'(x_n) \approx \frac{1}{h}\Big(b_1 \nabla y_n + b_2 \nabla^2 y_n + b_3 \nabla^3 y_n + \cdots \Big),
-$$
-where \(\nabla^k y_n\) are backward differences and \(b_k\) are known constants.
+	f(x) ≈ y₀ + uΔy₀ + [u(u-1)/2!]Δ²y₀ + [u(u-1)(u-2)/3!]Δ³y₀ + ...
 
-#### Second Derivative Approximation
-By differentiating the interpolating polynomial twice, we obtain formulas for the second derivative.
+where u = (x - x₀)/h
 
-- **At the beginning of the table (forward / using forward differences):**
-    $$
-    f''(x_0) \approx \frac{\Delta^2 y_0}{h^2}
-    = \frac{y_2 - 2y_1 + y_0}{h^2}.
-    $$
+Backward interpolation (around xₙ):
 
-- **At the end of the table (backward / using backward differences):**
-    $$
-    f''(x_n) \approx \frac{\nabla^2 y_n}{h^2}
-    = \frac{y_n - 2y_{n-1} + y_{n-2}}{h^2}.
-    $$
+	f(x) ≈ yₙ + u∇yₙ + [u(u+1)/2!]∇²yₙ + [u(u+1)(u+2)/3!]∇³yₙ + ...
 
-Higher-order formulas (involving more difference terms) can be derived in the same way when greater accuracy is required.
-
-#### Interpolation Formulas Used
-For reference, the interpolation polynomials used in numerical differentiation are:
-
-- **Forward interpolation (around x_0):**
-    $$
-    f(x) \approx y_0 + u\,\Delta y_0 + \frac{u(u-1)}{2!}\,\Delta^2 y_0
-                        + \frac{u(u-1)(u-2)}{3!}\,\Delta^3 y_0 + \cdots,
-    $$
-    where
-    $$
-    u = \frac{x - x_0}{h}
-    $$
-
-- **Backward interpolation (around x_n):**
-    $$
-    f(x) \approx y_n + u\,\nabla y_n + \frac{u(u+1)}{2!}\,\nabla^2 y_n
-                        + \frac{u(u+1)(u+2)}{3!}\,\nabla^3 y_n + \cdots,
-    $$
-    where
-    $$
-    u = \frac{x - x_n}{h}
-    $$
+where u = (x - xₙ)/h
 
 #### Features
-- Allows estimation of derivatives using only function values.
-- Different formulas (forward, backward, central) can be chosen based on where the point lies in the table and the desired accuracy.
-- Accuracy depends on the step size
-    $$
-    h
-    $$
-    and smoothness of
-    $$
-    f(x)
-    $$
+- Estimates derivatives using only function values
+- Choose forward, backward, or central differences based on point location
+- Accuracy depends on step size h and function smoothness
+- Higher-order formulas available for greater accuracy
 
 ### Numerical Differentiation Code
 ```cpp
